@@ -4,7 +4,7 @@ services:
   mongo:
     image: mongo
     ports:
-      - "27013:27017"
+      - "27033:27017"
     volumes:
       - mongo-data:/data/db
     restart: always
@@ -19,7 +19,7 @@ services:
   backend:
     image: ${BACKEND_IMAGE}
     ports:
-      - "5013:5000"
+      - "5033:5000"
     depends_on:
       - mongo
     env_file:
@@ -38,7 +38,7 @@ services:
   frontend:
     image: ${FRONTEND_IMAGE}
     ports:
-      - "3013:3000"
+      - "3033:3000"
     depends_on:
       - backend
     env_file:
