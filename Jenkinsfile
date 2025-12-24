@@ -21,8 +21,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${GITHUB_CREDENTIALS_ID}",
                     usernameVariable: 'GITHUB_USER',
                     passwordVariable: 'GITHUB_PASS')]) {
-                    echo "🔐 GitHub credentials loaded for user: $GITHUB_USER"
-                    // Agar GitHub CLI ya API use karni ho to yahan shell commands add kar sakte hain
+                    echo "🔐 GitHub credentials loaded for user: ${env.GITHUB_USER}"
                 }
             }
         }
@@ -42,9 +41,9 @@ pipeline {
         stage('Build & Tag Images') {
             steps {
                 script {
-                    // ✅ Push images into single repo: jenkins-day65
-                    env.FRONTEND_TAG_DH = "${DOCKERHUB_USER}/jenkins-day65:frontend-${IMAGE_TAG}"
-                    env.BACKEND_TAG_DH  = "${DOCKERHUB_USER}/jenkins-day65:backend-${IMAGE_TAG}"
+                    // ✅ Use env.DOCKERHUB_USER to avoid MissingPropertyException
+                    env.FRONTEND_TAG_DH = "${env.DOCKERHUB_USER}/jenkins-day65:frontend-${IMAGE_TAG}"
+                    env.BACKEND_TAG_DH  = "${env.DOCKERHUB_USER}/jenkins-day65:backend-${IMAGE_TAG}"
 
                     sh """
                         docker build -t ${BACKEND_TAG_DH} ./backend
